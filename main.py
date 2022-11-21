@@ -6,7 +6,7 @@ import webbrowser # --> To search across web.
 import os # --> To interact with your operating system
 import smtplib 
 from youtubesearchpython import Search # --> To search something on youtube.
-import datetime # --> For date & time.
+from datetime import datetime # --> For date & time.
 from AppOpener import run
 
 
@@ -74,11 +74,8 @@ def website(query):
     speak(f'Openning')
     query = query.replace('open', '')
     query = query.replace(' ', '')
-    try:
-        run(query)
-    except:
-        searchItem = f'{query}.com'
-        webbrowser.open(searchItem)
+    searchItem = f'{query}.com'
+    webbrowser.open(searchItem)
 
 
 def wiki(query):
@@ -95,8 +92,15 @@ def wiki(query):
 def sendMail():
     pass
 
-def dateTime():
-    pass
+def date():
+    date = datetime.now().strftime("%B %d, %Y")    
+    print(f"today's date is {date}")
+    speak(f"today's date is {date}")
+
+def time():
+    currentTime = datetime.now().strftime("%H:%M:%S")    
+    print(f"Sir, the time is {currentTime}")
+    speak(f"Sir, the time is {currentTime}")
 
 # Main Program
 if __name__ == "__main__":
@@ -119,6 +123,15 @@ if __name__ == "__main__":
         # Search something on wikipedia:
         elif 'wikipedia' in query:
             wiki(query)
+
+        # Current Time:
+        elif 'time' in query:
+            time()
+
+        # Todays's Date:
+        elif 'date' in query:
+            date()
+        
 
         elif 'exit' or 'quit' in query:
             speak("Exiting... Thankyou for using my services.")

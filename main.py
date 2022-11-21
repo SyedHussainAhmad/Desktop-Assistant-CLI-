@@ -4,7 +4,6 @@ import speech_recognition as sr
 import wikipedia # --> To interact with your wIkipedia
 import webbrowser # --> To search across web.
 import os # --> To interact with your operating system
-import smtplib 
 from youtubesearchpython import Search # --> To search something on youtube.
 from datetime import datetime # --> For date & time.
 from AppOpener import run
@@ -20,15 +19,13 @@ engine.setProperty('voice', voice[0].id)
 
 # Functions:
 
+# This Function speaks the input value.
 def speak(audio):
-    # This Function speaks the input value.
-
     engine.say(audio)
     engine.runAndWait()
 
+# This Function greets the user.
 def greeting():
-    # This Function greets the user.
-
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
         speak("Good Morning Hussain")
@@ -42,10 +39,8 @@ def greeting():
     speak("I am Jarvis Sir. How may I help you")       
 
 
-
+# It takes microphone input from the user and returns string output
 def listen():
-    # It takes microphone input from the user and returns string output
-
     r = sr.Recognizer()
     with sr.Microphone() as source:
         print("Listening...")
@@ -63,23 +58,21 @@ def listen():
 
     return query
 
+# This function search user commands on internet.
 def search(query):
-    # This function search user commands on internet.
     speak(f'Searching')
     query = query.replace('search', '')
     webbrowser.open(query)
 
+# This function opens the apps user wants.
 def website(query):
-    # This function opens the website user wants.
     speak(f'Openning')
     query = query.replace('open', '')
-    query = query.replace(' ', '')
-    searchItem = f'{query}.com'
-    webbrowser.open(searchItem)
+    run(query)
 
 
+# This function fetch the information from wikipedia.
 def wiki(query):
-    # This function fetch the information from wikipedia.
     speak('Searching Wikipedia...')
     print('Searching Wikipedia...')
     query = query.replace('wikipedia', '')
@@ -89,14 +82,13 @@ def wiki(query):
     speak(results)
 
 
-def sendMail():
-    pass
-
+# This function tells today's date.
 def date():
     date = datetime.now().strftime("%B %d, %Y")    
     print(f"today's date is {date}")
     speak(f"today's date is {date}")
 
+# This function tells current time.
 def time():
     currentTime = datetime.now().strftime("%H:%M:%S")    
     print(f"Sir, the time is {currentTime}")

@@ -2,7 +2,7 @@
 from datetime import datetime # --> For date & time.
 import webbrowser # --> To search across web.
 import wikipedia # --> To interact with your wIkipedia
-from AppOpener import run, give_appnames # --> To run the app.
+from AppOpener import run # --> To run the app.
 import speech_recognition as sr # --> For speech recognition
 import pyttsx3 # --> Text to speech.
 
@@ -24,7 +24,7 @@ def speak(audio):
 
 def greeting():
     '''This Function greets the user.'''
-    hour = int(datetime.datetime.now().hour)
+    hour = int(datetime.now().hour)
     if hour>=0 and hour<12:
         speak("Good Morning Hussain")
 
@@ -93,7 +93,7 @@ def time():
 # Main Program
 if __name__ == "__main__":
 
-    # greeting()
+    greeting()
     while True:
 
         query = listen().lower() # --> Take command and convert it into lower case string.

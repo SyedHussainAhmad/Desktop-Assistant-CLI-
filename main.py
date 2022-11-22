@@ -1,12 +1,10 @@
-# Import Modules:
-import pyttsx3 
-import speech_recognition as sr 
-import wikipedia # --> To interact with your wIkipedia
-import webbrowser # --> To search across web.
-import os # --> To interact with your operating system
-from youtubesearchpython import Search # --> To search something on youtube.
+'''Import Modules:'''
 from datetime import datetime # --> For date & time.
-from AppOpener import run
+import webbrowser # --> To search across web.
+import wikipedia # --> To interact with your wIkipedia
+from AppOpener import run, give_appnames # --> To run the app.
+import speech_recognition as sr # --> For speech recognition
+import pyttsx3 # --> Text to speech.
 
 
 # Voice Initialization:
@@ -19,80 +17,78 @@ engine.setProperty('voice', voice[0].id)
 
 # Functions:
 
-# This Function speaks the input value.
 def speak(audio):
+    '''This Function speaks the input value.'''
     engine.say(audio)
     engine.runAndWait()
 
-# This Function greets the user.
 def greeting():
+    '''This Function greets the user.'''
     hour = int(datetime.datetime.now().hour)
     if hour>=0 and hour<12:
         speak("Good Morning Hussain")
 
     elif hour>=12 and hour<18:
-        speak("Good Afternoon Hussain")   
+        speak("Good Afternoon Hussain")
 
     else:
         speak("Good Evening Hussain")
 
-    speak("I am Jarvis Sir. How may I help you")       
+    speak("I am Jarvis Sir. How may I help you")
 
-
-# It takes microphone input from the user and returns string output
 def listen():
-    r = sr.Recognizer()
+    ''' It takes microphone input from the user and returns string output'''
+    recognizer = sr.Recognizer()
+
     with sr.Microphone() as source:
         print("Listening...")
-        r.pause_threshold = 1
-        audio = r.listen(source)
+        recognizer.pause_threshold = 1
+        audio = recognizer.listen(source)
 
     try:
-        print("Recognizing your command...")    
-        query = r.recognize_google(audio)
-        print(f"You said: {query}\n")
+        print("Recognizing your command...")
+        voice_command = recognizer.recognize_google(audio)
+        print(f"You said: {voice_command}\n")
 
-    except Exception as e:
-        print("Please say again...")  
+    except LookupError:
+        print("Please say again...")
         return "None"
 
-    return query
+    return voice_command
 
-# This function search user commands on internet.
-def search(query):
-    speak(f'Searching')
-    query = query.replace('search', '')
-    webbrowser.open(query)
+def search(input_query):
+    '''This function search user commands on internet.'''
+    speak('Searching')
+    input_query = input_query.replace('search', '')
+    webbrowser.open(input_query)
 
-# This function opens the apps user wants.
-def website(query):
-    speak(f'Openning')
-    query = query.replace('open', '')
-    run(query)
+def website(input_query):
+    '''This function opens the apps user wants.'''
+    speak('Openning')
+    input_query = input_query.replace('open', '')
+    run(input_query)
 
-
-# This function fetch the information from wikipedia.
-def wiki(query):
+def wiki(input_query):
+    '''This function fetch the information from wikipedia.'''
     speak('Searching Wikipedia...')
     print('Searching Wikipedia...')
-    query = query.replace('wikipedia', '')
-    results = wikipedia.summary(query, sentences = 3)
+    input_query = input_query.replace('wikipedia', '')
+    results = wikipedia.summary(input_query, sentences = 3)
     speak('According to wikipedia..')
     print(results)
     speak(results)
 
-
-# This function tells today's date.
 def date():
-    date = datetime.now().strftime("%B %d, %Y")    
-    print(f"today's date is {date}")
-    speak(f"today's date is {date}")
+    '''This function tells today's date.'''
+    today_date = datetime.now().strftime("%B %d, %Y")
+    print(f"today's date is {today_date}")
+    speak(f"today's date is {today_date}")
 
-# This function tells current time.
 def time():
-    currentTime = datetime.now().strftime("%H:%M:%S")    
-    print(f"Sir, the time is {currentTime}")
-    speak(f"Sir, the time is {currentTime}")
+    '''This function tells current time.'''
+    current_time = datetime.now().strftime("%H:%M:%S")
+    print(f"Sir, the time is {current_time}")
+    speak(f"Sir, the time is {current_time}")
 
 # Main Program
 if __name__ == "__main__":
@@ -123,10 +119,8 @@ if __name__ == "__main__":
         # Todays's Date:
         elif 'date' in query:
             date()
-        
 
         elif 'exit' or 'quit' in query:
             speak("Exiting... Thankyou for using my services.")
             print("Exiting... Thankyou for using my services.")
             exit()
-        
